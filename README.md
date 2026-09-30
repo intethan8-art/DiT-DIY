@@ -9,3 +9,6 @@ Build a DiT(Diffusion Transformer) from scratch(with the help of Generative AI).
 5) 反向传播
 6) 优化器optimizer 更新
 7) 清空梯度
+
+## 9/29 实现
+以 MLP 为网络架构的 pipeline  
