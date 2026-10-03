@@ -93,19 +93,35 @@ class SelfAttention(nn.Module):
         return out
 
 # x' = x + attention(LN1(x)) 
-# x" = x'+ MLP(LN2(x)) H: hidden dimension
+# x" = x'+ MLP(LN2(x)) 
+# H1: hidden dimension h: head H2: hidden dimension for t
 
-# 再考虑加上时间调制
+# 再考虑加上时间调制 
+# 1) layernorm 的 scale 和 shift 由 t 来调制
+# 2) 加入门控
 class TransformerBlock(nn.Module):
-    def __init__(self, D, H, h) -> None:
+    def __init__(self, D, h, H) -> None:
         super().__init__()
         self.attn = SelfAttention(D, h)
         self.fc1 = nn.Linear(D, H)
         self.fc2 = nn.Linear(H, D)
-        self.norm1 = nn.LayerNorm(D)
-        self.norm2 = nn.LayerNorm(D)
+        self.norm1 = nn.LayerNorm(D, elementwise_affine=False)
+        self.norm2 = nn.LayerNorm(D, elementwise_affine=False)
+        self.proj_t = nn.Linear(D, 6*D)
+        nn.init.zeros_(self.proj_t.weight)
+        nn.init.zeros_(self.proj_t.bias)
 
-    def forward(self, x):
-        x1 = x + self.attn(self.norm1(x))
-        out = x1 + self.fc2(F.gelu(self.fc1(self.norm2(x1))))
+    def forward(self, x, t_emb):
+        t_mod = self.proj_t(t_emb)
+        scale_attn, shift_attn, gate_attn, scale_mlp, shift_mlp, gate_mlp = t_mod.chunk(6, dim=-1)
+        x_modulated = (
+            self.norm1(x) * (1 + scale_attn[:, None, :])
+            + shift_attn[:, None, :]
+        )
+        x1 = x + gate_attn[:, None, :] * self.attn(x_modulated)
+        x1_modulated = (
+            self.norm2(x1) * (1 + scale_mlp[:, None, :])
+            + shift_mlp[:, None, :]
+        )
+        out = x1 + gate_mlp[:, None, :] * self.fc2(F.gelu(self.fc1(x1_modulated)))
         return out
