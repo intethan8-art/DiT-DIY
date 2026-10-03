@@ -43,6 +43,26 @@ class PositionEmbed(nn.Module):
     def forward(self, x):
         return x + self.pos_emb
 
+class TimeEmbed(nn.Module):
+    def __init__(self, D, H) -> None:
+        super().__init__()
+        mode = D // 2
+        k = torch.arange(mode, dtype=torch.float32)
+        omega = 10000.0 ** (-k / mode)
+        self.register_buffer("omega", omega)
+
+        self.fc1 = nn.Linear(D, H)
+        self.fc2 = nn.Linear(H, D)
+
+    def forward(self, t):
+        angles = t[:, None] * self.omega[None, :]
+        t_sin = torch.sin(angles)
+        t_cos = torch.cos(angles)
+        pairs = torch.stack([t_sin, t_cos], dim=-1)
+        t_emb = pairs.flatten(start_dim=1)
+        t_emb = self.fc2(F.gelu(self.fc1(t_emb)))
+        return t_emb
+
 # multihead self-attention 
 class SelfAttention(nn.Module):
     def __init__(self, D, h) -> None:
@@ -70,4 +90,22 @@ class SelfAttention(nn.Module):
         out = out.permute(0, 2, 1, 3)
         out = out.reshape(B, N, D)
         out = self.W_o(out)
+        return out
+
+# x' = x + attention(LN1(x)) 
+# x" = x'+ MLP(LN2(x)) H: hidden dimension
+
+# 再考虑加上时间调制
+class TransformerBlock(nn.Module):
+    def __init__(self, D, H, h) -> None:
+        super().__init__()
+        self.attn = SelfAttention(D, h)
+        self.fc1 = nn.Linear(D, H)
+        self.fc2 = nn.Linear(H, D)
+        self.norm1 = nn.LayerNorm(D)
+        self.norm2 = nn.LayerNorm(D)
+
+    def forward(self, x):
+        x1 = x + self.attn(self.norm1(x))
+        out = x1 + self.fc2(F.gelu(self.fc1(self.norm2(x1))))
         return out
