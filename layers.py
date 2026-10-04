@@ -125,3 +125,4 @@ class TransformerBlock(nn.Module):
         )
         out = x1 + gate_mlp[:, None, :] * self.fc2(F.gelu(self.fc1(x1_modulated)))
         return out
+    
