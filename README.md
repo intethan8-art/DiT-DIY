@@ -12,3 +12,11 @@ Build a DiT(Diffusion Transformer) from scratch(with the help of Generative AI).
 
 ## 9/29 实现
 以 MLP 为网络架构的 pipeline  
+
+## 10/5 实现
+以 Transformer 为网络架构的pipeline
+input: x, t
+output: out(u_target) 
+x: Patchify -> input_proj -> PositionEmbed 
+                                           -> TransformerBlock -> output_proj -> Unpatchify 
+t:                           TimeEmbed
