@@ -4,15 +4,6 @@ import torch.nn.functional as F
 import math
 # useful layers for transformer
 
-# (B, N, C') -> (B, N, D) D: hidden dimension
-class PatchEmbed(nn.Module):
-    def __init__(self, C_patch, D) -> None:
-        super().__init__()
-        self.fc = nn.Linear(C_patch, D)
-
-    def forward(self, x):
-        return self.fc(x)
-
 # position embedding using sine/cosine
 class PositionEmbed(nn.Module):
     def __init__(self, grid_size, D) -> None:
@@ -51,6 +42,7 @@ class TimeEmbed(nn.Module):
         omega = 10000.0 ** (-k / mode)
         self.register_buffer("omega", omega)
 
+        # a learnable MLP
         self.fc1 = nn.Linear(D, H)
         self.fc2 = nn.Linear(H, D)
 
