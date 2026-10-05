@@ -20,4 +20,13 @@ def train_loops(model, optimizer, num_steps, batch_size):
         loss = train_step(model, optimizer, z)
         loss_history.append(loss)
     return loss_history
-        
+
+def train_loops(model, optimizer, train_loader, num_epochs):
+    loss_history = []
+    for epoch in range(num_epochs):
+        model.train()
+        for images, labels in train_loader:
+            loss = train_step(model, optimizer, images)
+            loss_history.append(loss)
+    return loss_history
+

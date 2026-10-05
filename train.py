@@ -1,24 +1,29 @@
 import torch
-from model import MLP
+import data
+import model
 from trainer import train_loops
 from sampler import sample
 import matplotlib.pyplot as plt
 
 
 # main script for training
-model = MLP()
-optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
-loss_history = train_loops(model, optimizer, 500, 64)
+train_loader = data.get_train_loader(64)
+net = model.DIT(1, 28, 28, 4, 64, 128, 4, 256, 2)
+optimizer = torch.optim.Adam(net.parameters(), lr=1e-3)
+loss_history = train_loops(net, optimizer, train_loader, 5)
 
 # generate
-noise = torch.randn(64, 2)
-samples = sample(model, noise, 100)
-points = samples.detach().cpu().numpy()
+noise = torch.randn(64, 1, 28, 28)
+samples = sample(net, noise, 100)
 
 # plot
-plt.scatter(points[:, 0], points[:, 1], s=10, alpha=0.5)
-plt.xlabel("x")
-plt.ylabel("y")
-plt.axis("equal")
-plt.grid(alpha=0.3)
+images = (samples.detach().cpu() + 1) / 2
+images = images.clamp(0, 1)
+
+fig, axes = plt.subplots(8, 8, figsize=(8, 8))
+for ax, image in zip(axes.flat, images):
+    ax.imshow(image[0].numpy(), cmap="gray", vmin=0, vmax=1)
+    ax.axis("off")
+
+plt.tight_layout()
 plt.show()
