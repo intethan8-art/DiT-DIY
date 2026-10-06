@@ -1,6 +1,7 @@
 import torch
 import data
 import model
+import flow
 from trainer import train_loops
 from sampler import sample
 import matplotlib.pyplot as plt
@@ -10,7 +11,7 @@ import matplotlib.pyplot as plt
 train_loader = data.get_train_loader(64)
 net = model.DIT(1, 28, 28, 4, 64, 128, 4, 256, 2)
 optimizer = torch.optim.Adam(net.parameters(), lr=1e-3)
-loss_history = train_loops(net, optimizer, train_loader, 5)
+loss_history = train_loops(net, optimizer, train_loader, 5, flow.make_score_pair)
 
 # generate
 noise = torch.randn(64, 1, 28, 28)
