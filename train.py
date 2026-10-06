@@ -3,7 +3,7 @@ import data
 import model
 import flow
 from trainer import train_loops
-from sampler import sample
+import sampler 
 import matplotlib.pyplot as plt
 
 
@@ -15,7 +15,7 @@ loss_history = train_loops(net, optimizer, train_loader, 5, flow.make_score_pair
 
 # generate
 noise = torch.randn(64, 1, 28, 28)
-samples = sample(net, noise, 100)
+samples = sampler.sample_ode(net, noise, 100)
 
 # plot
 images = (samples.detach().cpu() + 1) / 2
