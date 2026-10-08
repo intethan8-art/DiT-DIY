@@ -20,3 +20,9 @@ output: out(u_target)
 x: Patchify -> input_proj -> PositionEmbed 
                                            -> TransformerBlock -> output_proj -> Unpatchify 
 t:                           TimeEmbed
+
+## 10/6 实现
+SDE & score-matching
+
+## 10/8 实现
+Classifier-free guidance
