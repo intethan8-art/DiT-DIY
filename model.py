@@ -51,15 +51,20 @@ class DIT(nn.Module):
             [layers.TransformerBlock(D, h, b_D)
             for _ in range(Depth)]
         )
+        
+        self.y_emb = nn.Embedding(11, D)
+        self.null_label = 10
 
-    def forward(self, x, t):
+# classifier-free guidance
+    def forward(self, x, t, y):
         original_size = x.shape
         x_patchified = patch_utils.patchify(x, self.patch_size)
         x_emb = self.pos_emb(self.input_proj(x_patchified))
         t_emb = self.t_emb(t)
+        y_emb = self.y_emb(y)
         out1 = x_emb
         for block in self.blocks:
-            out1 = block(out1, t_emb)
+            out1 = block(out1, t_emb, y_emb)
         out2 = self.output_proj(out1)
         out = patch_utils.unpatchify(out2, self.patch_size, original_size)
         return out

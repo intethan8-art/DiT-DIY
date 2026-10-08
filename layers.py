@@ -103,8 +103,9 @@ class TransformerBlock(nn.Module):
         nn.init.zeros_(self.proj_t.weight)
         nn.init.zeros_(self.proj_t.bias)
 
-    def forward(self, x, t_emb):
-        t_mod = self.proj_t(t_emb)
+    def forward(self, x, t_emb, y_emb):
+        condition = t_emb + y_emb
+        t_mod = self.proj_t(condition)
         scale_attn, shift_attn, gate_attn, scale_mlp, shift_mlp, gate_mlp = t_mod.chunk(6, dim=-1)
         x_modulated = (
             self.norm1(x) * (1 + scale_attn[:, None, :])

@@ -1,4 +1,5 @@
 import torch
+import math
 import data
 import model
 import flow
@@ -14,8 +15,12 @@ optimizer = torch.optim.Adam(net.parameters(), lr=1e-3)
 loss_history = train_loops(net, optimizer, train_loader, 5, flow.make_score_pair)
 
 # generate
+def sigma_t(t):
+    return 0.5 * math.cos(math.pi / 2 * t)
+
 noise = torch.randn(64, 1, 28, 28)
-samples = sampler.sample_ode(net, noise, 100)
+labels = torch.full((64,), 3, device=noise.device, dtype=torch.long)
+samples = sampler.sample_sde(net, noise, labels, 100, sigma_t, w=2)
 
 # plot
 images = (samples.detach().cpu() + 1) / 2
