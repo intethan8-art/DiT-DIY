@@ -26,3 +26,5 @@ SDE & score-matching
 
 ## 10/8 实现
 Classifier-free guidance
+
+![alt text](image.png)
