@@ -74,14 +74,15 @@ class Decoder(nn.Module):
         return x_mu
 
 class VAE(nn.Module):
-    def __init__(self, in_channels, latent_channels, hidden_channels):
+    def __init__(self, in_channels, latent_channels, hidden_channels, var):
         super().__init__()
         self.encoder = Encoder(in_channels, latent_channels, hidden_channels)
         self.reparameterize = Reparameterize()
         self.decoder = Decoder(latent_channels, in_channels, (hidden_channels[1], hidden_channels[0]))
+        self.var = var
 
     def forward(self, x):
         mu, logvar = self.encoder(x)
         z = self.reparameterize(mu, logvar)
-        x_recon = self.decoder(z)
-        return x_recon
+        x_mu = self.decoder(z)
+        return x_mu, mu, logvar
