@@ -25,7 +25,12 @@ def train_loops(model, optimizer, num_steps, batch_size, make_pair):
         loss_history.append(loss)
     return loss_history
 
-def train_loops(model, optimizer, train_loader, num_epochs, make_pair):
+def train_loops(model, optimizer, train_loader, num_epochs, make_pair, vae = None):
+
+    if vae is not None:
+        vae.eval()
+        vae.requires_grad_(False)
+
     loss_history = []
     for epoch in range(num_epochs):
         model.train()
@@ -33,7 +38,15 @@ def train_loops(model, optimizer, train_loader, num_epochs, make_pair):
         sample_count = 0
 
         for step, (images, labels) in enumerate(train_loader):
-            loss = train_step(model, optimizer, images, labels, make_pair)
+
+            if vae is None:
+                z = images
+            else:
+                with torch.no_grad():
+                    mu, logvar = vae.encoder(images)
+                    z = vae.reparameterize(mu, logvar)
+
+            loss = train_step(model, optimizer, z, labels, make_pair)
             loss_history.append(loss)
 
             batch_size = images.shape[0]

@@ -28,3 +28,7 @@ SDE & score-matching
 Classifier-free guidance
 
 ![alt text](image.png)
+
+## 10/12 实现
+Latent diffusion
+接入VAE，在 latent space 中直接生成。

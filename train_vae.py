@@ -1,5 +1,6 @@
 import torch
 import matplotlib.pyplot as plt
+from pathlib import Path
 
 from data import get_train_loader
 from VAE import VAE                  
@@ -31,6 +32,17 @@ def main():
         beta=1e-3,
     )
 
+    Path("outputs").mkdir(exist_ok=True)
+
+    torch.save({
+        "model_state_dict": model.state_dict(),
+        "config": {
+            "in_channels": 1,
+            "latent_channels": 4,
+            "hidden_channels": (32, 64),
+            "var": model.var,
+        },
+    }, "outputs/vae.pt")
     
     model.eval()
     with torch.no_grad():
