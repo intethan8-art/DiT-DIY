@@ -1,0 +1,6 @@
+# Core runtime. Exact versions used for the release are in docs/requirements-tested.txt.
+torch>=2.2
+torchvision>=0.17
+matplotlib>=3.8
+Pillow>=10.0
+# Optional local experiment dashboard: pip install wandb

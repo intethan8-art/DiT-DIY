@@ -1,0 +1,21 @@
+{
+  "seed": 42,
+  "model": {"C": 1, "H": 28, "W": 28, "P": 4, "D": 64, "t_D": 128, "h": 4, "b_D": 256, "Depth": 2},
+  "objective": "flow",
+  "batch_size": 128,
+  "epochs": 60,
+  "learning_rate": 0.001,
+  "minimum_lr_ratio": 0.1,
+  "ema_decay": 0.995,
+  "validation_size": 5000,
+  "validation_seed": 31415,
+  "sample_seed": 2026,
+  "sample_steps": 100,
+  "guidance": 2.0,
+  "samples_per_class": 10,
+  "preview_every": 5,
+  "threads": 4,
+  "max_seconds": 2700,
+  "wandb_mode": "offline",
+  "wandb_project": "dit-diy"
+}

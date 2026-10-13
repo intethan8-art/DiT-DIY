@@ -23,7 +23,7 @@ vae.requires_grad_(False)
 train_loader = data.get_train_loader(64)
 net = model.DIT(4, 7, 7, 1, 64, 128, 4, 256, 2)
 optimizer = torch.optim.Adam(net.parameters(), lr=1e-3)
-loss_history = train_loops(net, optimizer, train_loader, 5, flow.make_score_pair, vae)
+loss_history = train_loops(net, optimizer, train_loader, 10, flow.make_score_pair, vae)
 
 # generate
 def sigma_t(t):
@@ -34,8 +34,9 @@ labels = torch.full((64,), 3, device=noise.device, dtype=torch.long)
 z_generated = sampler.sample_sde(net, noise, labels, 100, sigma_t, w=2)
 with torch.no_grad():
     images_mu = vae.decoder(z_generated)
-eps = torch.randn_like(images_mu)
-samples = images_mu + eps * torch.sqrt(vae.var)
+samples = images_mu
+# eps = torch.randn_like(images_mu)
+# samples = images_mu + eps * math.sqrt(vae.var)
 
 # plot
 images = (samples.detach().cpu() + 1) / 2

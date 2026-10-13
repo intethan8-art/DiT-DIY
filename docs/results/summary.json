@@ -1,0 +1,7 @@
+{
+  "status": "epochs_complete",
+  "epochs_completed": 60,
+  "selected_epoch": 60,
+  "best_val_ema_mse": 0.18556882870197297,
+  "elapsed_seconds": 2401.1552282001358
+}

@@ -1,0 +1,152 @@
+{
+  "classifier_test_accuracy": 0.9859,
+  "classifier_test_count": 10000,
+  "classifier_validation_accuracy": 0.9834,
+  "classifier_selected_epoch": 5,
+  "classifier_sha256": "a2dea11a4040c2cae6f6d6b448377f5bac8ea5994f26a6c3166d699daa8771c6",
+  "limitation": "Classifier agreement is not FID, perceptual quality, or diversity; one training seed.",
+  "checkpoint_sha256": "8dd1cb7cafebe5291599f17f991b74caf96e0865d9bb53467910dc895d8c9915",
+  "selected_epoch": 60,
+  "sample_seed": 9876,
+  "samples_per_class": 100,
+  "sample_count": 1000,
+  "conditional_accuracy": 0.991,
+  "conditional_accuracy_wilson_95": [
+    0.982983992177176,
+    0.9952579934109885
+  ],
+  "per_class_accuracy": [
+    1.0,
+    1.0,
+    0.9900000095367432,
+    0.9900000095367432,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.9900000095367432,
+    0.9399999976158142
+  ],
+  "confusion_matrix_true_rows_predicted_columns": [
+    [
+      100,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      100,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      99,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      99,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      100,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      100,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      100,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      100,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      99,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      6,
+      0,
+      94
+    ]
+  ]
+}

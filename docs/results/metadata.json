@@ -1,0 +1,27 @@
+{
+  "git_commit": "c1058d70164271823a35fb6109ec468eecc52618",
+  "git_status": "M latent_train.py\n M train_vae.py\n?? configs/\n?? experiment.py",
+  "python": "3.11.16",
+  "torch": "2.14.0+cpu",
+  "torchvision": "0.29.0+cpu",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "device": "cpu",
+  "parameters": 168784,
+  "source_sha256": {
+    "experiment.py": "b30808e2808aab45fdd00ac8c2d162c591439fafbd34e09afe83314a6f92ef69",
+    "model.py": "c04f75e649c57fbcbf08b9da5259f5cc1d9ef6b22b0de146e67558d3a9e107a7",
+    "layers.py": "629337dae5f333ebb95cbaa56f3f371a961ac5d36b462d11b57789d02ff8f975",
+    "flow.py": "ae9986728b73293a0c1cbdc65e786b00c757f5ea97efba99a59da87c83827edb",
+    "sampler.py": "0f31c37c20fa08e5a471deeb259ff513496f763825ef1b4d70aedb2ee800725a",
+    "patch_utils.py": "7953da0d5a805d1d0faeb29d9a11961bb798bae3cc42d4add54121a83d05e8e4",
+    "trainer.py": "da5574c17b57fe3943b9a3008f30046311225a005355a6ea2e29559e5d4b2315",
+    "data.py": "cdd47b15a0c5d887be70272b57727048b26f6e8fd48d77b67a25d699ecbe96b9"
+  },
+  "dataset": "MNIST official training split",
+  "train_samples": 55000,
+  "validation_samples": 5000,
+  "selection": "minimum fixed-noise validation MSE of EMA weights",
+  "label_dropout": 0.1,
+  "optimizer": "Adam",
+  "resume_from": "None"
+}

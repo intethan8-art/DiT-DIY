@@ -28,7 +28,7 @@ def main():
         model,
         optimizer,
         train_loader,
-        num_epochs=1,
+        num_epochs=2,
         beta=1e-3,
     )
 
